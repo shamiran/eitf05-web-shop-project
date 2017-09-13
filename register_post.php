@@ -40,7 +40,9 @@ if($blacklistTest){
 	echo 'Username and/or password not filled in.';
 } else if($password === $password2){
 	$sql = "SELECT * FROM users WHERE username LIKE '" . $username . "'";
+	
 	$result = $conn->query($sql);
+	print($result);
 	if($result->num_rows > 0){
 		echo 'Username already occupied';
 	} else {
