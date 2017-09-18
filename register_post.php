@@ -1,11 +1,30 @@
+
 <html>
 <head>
 <title>Min sida</title>
 <link rel="stylesheet" type="text/css" href="mall.css" />
 </head>
 <body>
-<?php
-$servername = "localhost";
+	<nav class="col-1">
+		<ul>
+			<li><a href="index.php">Home</a></li>
+  		<li><a href="products.php">Products</a></li>
+  		<li><a href="contact.php">Contact</a></li>
+  		<li><a href="about.php">About</a></li>
+		</ul>
+	</nav>
+	<div class="col-2">
+		<header>
+			<h1> Webshop </h1>
+		</header>
+		<main class="content">
+			<?php
+				echo 'Hello world! <br />';
+			?>
+			<div class="login-form">
+				<?php
+
+	$servername = "localhost";
 
 // Create connection
 $conn = new mysqli($servername, 'webadmin', 'adminadmin','webshop');
@@ -16,23 +35,22 @@ if ($conn->connect_error) {
 }
 echo "Connected successfully<br />";
 
+				$username = $_POST['username'];
+				$password = $_POST['password'];
+				$password2 = $_POST['password2'];
+				$blacklistTest = false;
 
-$username = $_POST['username'];
-$password = $_POST['password'];
-$password2 = $_POST['password2'];
-$blacklistTest = false;
-
-$sql = "SELECT * FROM blacklist";
-$result = $conn->query($sql);
-$n = $result->num_rows;
-$i = 0;
-while($i < $n){
+				$sql = "SELECT * FROM blacklist";
+				$result = $conn->query($sql);
+				$n = $result->num_rows;
+				$i = 0;
+				while($i < $n){
 	if($password === $result->fetch_assoc()['password']){
 		$blacklistTest = true;
 		$i = $n;
 	}
+	$i++;
 }
-
 
 if($blacklistTest){
 	echo 'Too common password!';
@@ -52,7 +70,7 @@ if($blacklistTest){
 		$salt = makeMeASalt(6);
 		
 		$sql = "INSERT INTO users (username, password, salt) VALUES ('" . $username . "', '" . md5($password.$salt) . "', '" . $salt . "')";
-		echo $sql . '<br />';
+	
 		if($conn->query($sql)===TRUE){
 			echo 'User registered';
 		} else {
@@ -75,6 +93,17 @@ function makeMeASalt($max=40){
 }
 
 ?>
-<br /><a href="index.php">Back to start site</a>
+
+			</div>
+		</main>
+		<footer>
+			<div class="f1">
+				teeeeesting
+			</div>
+			<div class="f2">
+				testing2
+			</div>
+		</footer>
+	</div>
 </body>
-</html> 
+</html>
