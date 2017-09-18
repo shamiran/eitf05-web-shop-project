@@ -6,6 +6,16 @@
 	} else {
 		session_start();
 	}
+	if(isset($_GET['remove'])){
+		$i = $_GET['remove']+1;
+		while($i<$_SESSION['num_products']){
+			$_SESSION['cart'][$i-1] = $_SESSION['cart'][$i];
+			$i++;
+		}
+	$_SESSION['cart'][$_SESSION['num_products']-1] = null;
+			
+	$_SESSION['num_products']--;
+	}
 ?>
 <html>
 <head>
@@ -62,17 +72,6 @@
 
 			<div class="product-list"><center>
 				<?php
-
-					if(isset($_GET['remove'])){
-						$i = $_GET['remove']+1;
-						while($i<$_SESSION['num_products']){
-							$_SESSION['cart'][$i-1] = $_SESSION['cart'][$i];
-							$i++;
-						}
-						$_SESSION['cart'][$_SESSION['num_products']-1] = null;
-						
-						$_SESSION['num_products']--;
-					}
 
 					$n = $_SESSION['num_products'];
 					if($n == 0){
