@@ -41,7 +41,7 @@
 					?>
 				</div>
 				<div class=shopping-cart>
-				<a href="cart.php"><img src="https://image.flaticon.com/icons/svg/2/2772.svg" alt="Shopping Cart" height="30px">Shopping Cart <?php if(isset($_SESSION['username'])&&$_SESSION['num_products']>0) echo '<strong>(' . $_SESSION['num_products'] . ')</strong>'; ?></a>
+				<a href=""><img src="https://image.flaticon.com/icons/svg/2/2772.svg" alt="Shopping Cart"height="30px">Shopping Cart <?php if(isset($_SESSION['username'])&&$_SESSION['num_products']>0) echo '<strong>(' . $_SESSION['num_products'] . ')</strong>'; ?></a>
 			</div>
 			</div>
 		</header>
@@ -60,46 +60,37 @@
 			}
 			?>
 
-			<div class="product-list">
-				<h2> Products </h2>
+			<div class="product-list"><center>
 				<?php
-					$sql = "SELECT * FROM products";
-					$result = $conn->query($sql);
-					if($result){
-						$n = $result->num_rows;
+
+					if(isset($_GET['remove'])){
+						$i = $_GET['remove']+1;
+						while($i<$_SESSION['num_products']){
+							$_SESSION['cart'][$i-1] = $_SESSION['cart'][$i];
+							$i++;
+						}
+						$_SESSION['cart'][$_SESSION['num_products']-1] = null;
+						
+						$_SESSION['num_products']--;
+					}
+
+					$n = $_SESSION['num_products'];
+					if($n == 0){
+						echo 'The shopping cart is empty.';
 					} else {
-						$n = 0;
+						echo '<table id="cart_table"><tr><th>Product</th><th>Price</th><th></th></tr>';
+						$i = 0;
+						while($i<$n){
+							$sql = "SELECT * FROM products WHERE id = " . $_SESSION['cart'][$i];
+							$result = $conn->query($sql);
+							$row = $result->fetch_assoc();
+							echo '<tr><td>'.$row['name'].'</td><td>$'.$row['price'] . '</td><td><a href="cart.php?remove='.$i.'">Remove</a></td></tr>';
+							$i++;
+						}
+						echo '</table>';
 					}
-					$i = 0;
-					$nrCols = 3;
-
-				echo '<table>';
-				echo '<tr>';
-				while($i < $n){
-					echo '<td align="center" valign="center">';
-					$row = $result->fetch_assoc();
-					echo '<div class="product">
-								<h4>' . $row['name'] . '</h4>
-								<img src = '. $row['image'] .' alt=' . $row['name'] . ' height="200px">
-								<br />
-								'. $row['price'] .'$
-								<br />
-								<a href="products.php?id='.$row['id'].'"> Add to cart</a>
-								</div>';
-					$i++;
-					echo '</td>';
-					if($i % $nrCols == 0){
-						echo '</tr>';
-						echo '<tr>';
-					}
-				}
-				echo '</tr>';
-				echo '</table>';
-
-
-
 				?>
-			</div>
+			</center></div>
 		</main>
 		<footer>
 			<div class="f1">

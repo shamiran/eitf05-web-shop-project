@@ -1,4 +1,4 @@
-#!bash
+#!/bin/bash
 
 mysql -u webadmin --password=adminadmin -e "
   USE webshop;

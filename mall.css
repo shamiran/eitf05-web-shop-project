@@ -80,7 +80,7 @@
     flex-direction: column;
 
   }
-  .shopping-cart{
+  .shopping-car
     margin-top: 20px;
   }
 
@@ -88,6 +88,17 @@
   display: block;
   text-decoration: none
 }
+#cart_table{
+	border-collapse: collapse;
+}
+#cart_table tr th{
+	background-color: #FFFF00;
+}
+#cart_table tr td,th{
+	padding: 10px;
+	border: 1px solid black;
+}
+
 
   header h1 {
     color: #ffffff;
