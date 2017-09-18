@@ -4,31 +4,38 @@
 <link rel="stylesheet" type="text/css" href="mall.css" />
 </head>
 <body>
-<?php 
-	echo 'Hello world! <br />';
-?>
-This is my site!
+	<nav class="col-1">
+		<ul>
+			<li><a href="index.php">Home</a></li>
+  		<li><a href="products.php">Products</a></li>
+  		<li><a href="contact.php">Contact</a></li>
+  		<li><a href="about.php">About</a></li>
+		</ul>
+	</nav>
+	<div class="col-2">
+		<header>
+			<h1> Webshop </h1>
+		</header>
+		<main class="content">
 
-<?php
-$servername = "localhost";
-$username = "webadmin";
-$password = "adminadmin";
-
-// Create connection
-$conn = new mysqli($servername, $username, $password,'webshop');
-
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-echo "Connected successfully";
-?>
-
+			<div class="login-form">
+				
 <form action="register_post.php" method="post">
 Username: <input type="text" value="" name="username" /><br />
 Password: <input type="text" value="" name="password" /><br />
 Password again: <input type="text" value="" name="password2" />
 <input type="submit" value="Register" />
-</form> 
+</form>
+			</div>
+		</main>
+		<footer>
+			<div class="f1">
+				teeeeesting
+			</div>
+			<div class="f2">
+				testing2
+			</div>
+		</footer>
+	</div>
 </body>
-</html> 
+</html>
