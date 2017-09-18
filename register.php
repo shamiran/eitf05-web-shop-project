@@ -14,12 +14,13 @@
 	</nav>
 	<div class="col-2">
 		<header>
-			<h1> Webshop </h1>
+			<img src = "https://challenge.burnerapp.com/img/logo.png" height="50px">
+			<h1> BurnerPhone Store </h1>
 		</header>
 		<main class="content">
 
 			<div class="login-form">
-				
+
 <form action="register_post.php" method="post">
 Username: <input type="text" value="" name="username" /><br />
 Password: <input type="text" value="" name="password" /><br />
