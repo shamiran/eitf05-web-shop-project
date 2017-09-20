@@ -57,33 +57,40 @@
 			    die("Connection failed: " . $conn->connect_error);
 			}
       ?>
-      <div class=receipt>
+      <div class="receipt">
       <center>
-      <h3>The purchase has been confirmed</h3>'
-      <p>The following products has been purchased</p>
-      <?php
-      $address = strip_tags($_POST['address']);
+			<?php
+			$address = strip_tags($_POST['address']);
+			if ($address == "") {
+				echo "<h3>No delivery address was filled in </h3>";
+				echo '<a href="cart.php"> Back to cart </a>';
+			} else if($_SESSION['num_products'] == 0) {
+				echo "<h3>No Products in the cart </h3>";
+				echo '<a href="products.php"> Back to products </a>';
+			} else {
+	      echo '<h3>The purchase has been confirmed</h3>';
+	      echo '<p>The following products has been purchased</p>';
+	      echo '<table id="checkout_table">';
+	      $totalPrice = 0;
+	      $n = $_SESSION['num_products'];
+	      $i = 0;
+	      while($i<$n){
+	        $sql = "SELECT * FROM products WHERE id = " . $_SESSION['cart'][$i];
+	        $result = $conn->query($sql);
+	        $row = $result->fetch_assoc();
+	        echo '<tr><td>'.$row['name'].'</td><td>$'.$row['price'] . '</tr>';
+	        $i++;
+	        $totalPrice = $totalPrice + $row['price'];
+	      }
+	      echo '<tr><td>Total price </td><td>$'.$totalPrice . '</tr>';
+	      echo '</table>';
+	      echo 'The order will be delivered to : '.$address.'';
+				echo '<h4>Thank you for your order</h4>';
 
-      echo '<table id="checkout_table">';
-      $totalPrice = 0;
-      $n = $_SESSION['num_products'];
-      $i = 0;
-      while($i<$n){
-        $sql = "SELECT * FROM products WHERE id = " . $_SESSION['cart'][$i];
-        $result = $conn->query($sql);
-        $row = $result->fetch_assoc();
-        echo '<tr><td>'.$row['name'].'</td><td>$'.$row['price'] . '</tr>';
-        $i++;
-        $totalPrice = $totalPrice + $row['price'];
-      }
-      echo '<tr><td>Total price </td><td>$'.$totalPrice . '</tr>';
-      echo '</table>';
-      echo 'The order will be delivered to : '.$address.'';
-
-      //remove all items from cart
-        $_SESSION['num_products'] = 0;
+	      //remove all items from cart
+	        $_SESSION['num_products'] = 0;
+			}
 			?>
-      <h4> Thanks for ordering from ExpressPhone store </h4>
     </center>
     </div>
 		</main>

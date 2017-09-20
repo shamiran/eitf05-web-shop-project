@@ -90,8 +90,8 @@
 							$totalPrice = $totalPrice + $row['price'];
 						}
 						echo '</table>';
-						echo '<br /> The total price is ' . $totalPrice . '$<br />';
-						
+						echo '<br /> The total price is <strong> $' . $totalPrice . ' </strong><br /><br />';
+
 						$name = $_SESSION['username'] ;
 						$sql = "SELECT address FROM users WHERE username =  '$name' LIMIT 1";
 						$result = $conn->query($sql);
@@ -99,10 +99,15 @@
 						$address = $row['address'];
 						echo '
 						<form action="checkout.php" method="post">
-						<h3> Checkout </h3>
-						<br />
-						Address:<input type="text" value='.$address.' size = "30" name="address" />
-						<br />
+						<h3> Delivery Details </h3>';
+						if(!isset($address)){
+							$address=htmlspecialchars($address);
+							echo '<br /> '. $address .' ';
+							echo 'Address:<input type="text" value= "'.$address.'" size = "30" name="address" />';
+						}	else {
+							echo 'Address:<input type="text" value= "" size = "30" name="address" />';
+						}
+						echo '<br /><br />
 						<input type="submit" value="Check out" />
 						</form>';
 
