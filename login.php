@@ -26,20 +26,44 @@ $result = $conn->query($sql);
 
 if($result->num_rows == 0){
 	$login = false;
+	$reason = 2;
 } else {
 	$row = $result->fetch_assoc();
+	
+	$sql = "UPDATE users SET lastLoginAttempt = '" . date("Y-m-d H:i:s") . "' WHERE username LIKE '" . $username . "'";
+	$conn->query($sql);
 
-	$salt = $row['salt'];
+	$mysql_date_now = new DateTime("now");
+	$date_lastLogin = new DateTime($row['lastLoginAttempt']);
 
-	if(md5($password.$salt) === $row['password']){
-		$login = true;
-		session_start();
-		$_SESSION["username"] = $username;
-		$_SESSION["num_products"] = 0;
+	if($mysql_date_now->getTimestamp() - $date_lastLogin->getTimestamp() >= 60 || $row['loginAttemptCount']<5){
+		$salt = $row['salt'];
+		if(md5($password.$salt) === $row['password']){
+			$login = true;
+			session_start();
+			$_SESSION["username"] = $username;
+			$_SESSION["num_products"] = 0;
+			$sql = "UPDATE users SET loginAttemptCount = 1 WHERE username LIKE '".$username . "'";
+			$conn->query($sql);
+		} else {
+			$login = false;
+			$reason = 1;			
+
+			if($mysql_date_now->getTimestamp() - $date_lastLogin->getTimestamp() < 60){
+				$sql = "UPDATE users SET loginAttemptCount = loginAttemptCount + 1 WHERE username LIKE '".$username . "'";
+				$conn->query($sql);
+			} else {
+				$sql = "UPDATE users SET loginAttemptCount = 1 WHERE username LIKE '".$username . "'";
+				$conn->query($sql);
+			}
+		}
 	} else {
 		$login = false;
+		$reason = 0;
 	}
 }
+
+?>
 
 ?>
 
@@ -70,7 +94,13 @@ if($result->num_rows == 0){
 					if($login){
 						echo 'User found. Password correct';
 					} else {
-						echo '<h3>Wrong username or password</h3>';
+						if($reason==0){
+							echo 'Too many recent login attempts, please wait 60 seconds';
+						} else if($reason==1){
+							echo 'Wrong username or password';
+						} else {
+							echo 'User not found';
+						}
 						echo '<a href="index.php"> Back to login </a>';
 					}
 				?>

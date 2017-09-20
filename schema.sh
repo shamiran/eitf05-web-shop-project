@@ -9,7 +9,10 @@ mysql -u webadmin --password=adminadmin -e "
   CREATE TABLE users (username VARCHAR(100) CHARACTER SET utf8,
                       address VARCHAR(200),
                       password VARCHAR(200),
-                      salt VARCHAR(50));
+                      salt VARCHAR(50),
+			lastLoginAttempt TIMESTAMP,
+			loginAttemptCount INT
+			);
   CREATE TABLE blacklist (password VARCHAR(200));
 	CREATE TABLE products (id int AUTO_INCREMENT NOT NULL,
 			                   name VARCHAR(50),

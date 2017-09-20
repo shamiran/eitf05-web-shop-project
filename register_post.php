@@ -82,7 +82,8 @@ else if($password === $password2){
 		//$salt = random_bytes($saltlength);
 		$salt = makeMeASalt(6);
 
-		$sql = "INSERT INTO users (username, address, password ,salt) VALUES ('" . $username . "','" . $address . "', '" . md5($password.$salt) . "', '" . $salt . "')";
+		$mysql_date_now = date("Y-m-d H:i:s");
+		$sql = "INSERT INTO users (username, address, password, salt, lastLoginAttempt, loginAttemptCount) VALUES ('" . $username . "', '" . $address . "', '" . md5($password.$salt) . "', '" . $salt . "', '" . $mysql_date_now ."', " . 0 .")";
 
 		if($conn->query($sql)===TRUE){
 			echo '<h3>User registered</h3>';

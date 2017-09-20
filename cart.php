@@ -91,7 +91,7 @@
 						}
 						echo '</table>';
 						echo '<br /> The total price is ' . $totalPrice . '$<br />';
-
+						
 						$name = $_SESSION['username'] ;
 						$sql = "SELECT address FROM users WHERE username =  '$name' LIMIT 1";
 						$result = $conn->query($sql);
