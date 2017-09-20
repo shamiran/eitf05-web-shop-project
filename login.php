@@ -33,6 +33,7 @@ if($result->num_rows == 0){
 		$login = true;
 		session_start();
 		$_SESSION["username"] = $username;
+		$_SESSION["num_products"] = 0;
 	} else {
 		$login = false;
 	}

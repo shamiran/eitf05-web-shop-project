@@ -23,7 +23,23 @@
 	</nav>
 	<div class="col-2">
 		<header>
-			<h1> Webshop </h1>
+			<div class=header-titel>
+				<img src = "https://challenge.burnerapp.com/img/logo.png" alt="Logo" height="50px">
+				<h1> ExpressPhone Store </h1>
+			</div>
+			<div class=header-info>
+				<div class=active-user>
+					<?php if(isset($_SESSION['username'])){
+						echo 'Logged in as ' . $_SESSION['username'] . '<br /><a href="index.php?logout=true">Log out</a>';
+						} else {
+						echo 'Not logged in.<br /><a href="index.php">Log in</a> | <a href="register.php">Register new user</a>';
+						}
+					?>
+				</div>
+				<div class=shopping-cart>
+				<a href="cart.php"><img src="https://image.flaticon.com/icons/svg/2/2772.svg" alt="Shopping Cart"height="30px">Shopping Cart <?php if(isset($_SESSION['username'])&&$_SESSION['num_products']>0) echo '<strong>(' . $_SESSION['num_products'] . ')</strong>'; ?></a>
+			</div>
+			</div>
 		</header>
 		<main class="content">
 			<?php
@@ -45,7 +61,7 @@
 
 			?>
 			<div class="login-form">
-				<?php 	
+				<?php
 					if(isset($_SESSION['username'])){
 						echo 'Welcome back, ' . $_SESSION['username'] . '!<br />';
 						echo '<a href="index.php?logout=true">Log out</a>';
@@ -69,15 +85,8 @@
 		</main>
 		<footer>
 			<div class="f1">
-				<?php if(isset($_SESSION['username'])){
-					echo 'Logged in as ' . $_SESSION['username'] . '<br /><a href="index.php?logout=true">Log out</a>';
-					} else {
-					echo 'Not logged in.<br /><a href="index.php">Log in</a> | <a href="register.php">Register new user</a>';
-					}
-				?>
 			</div>
 			<div class="f2">
-				testing2
 			</div>
 		</footer>
 	</div>
