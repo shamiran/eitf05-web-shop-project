@@ -43,9 +43,6 @@
 		</header>
 		<main class="content">
 			<?php
-				echo 'Hello world! <br />';
-			?>
-			<?php
 			$servername = "localhost";
 			$username = "webadmin";
 			$password = "adminadmin";
@@ -57,7 +54,6 @@
 			if ($conn->connect_error) {
 			    die("Connection failed: " . $conn->connect_error);
 			}
-			echo "Connected successfully";
 
 			?>
 			<div class="login-form">
@@ -68,10 +64,11 @@
 					} else { echo '
 				<form action="login.php" method="post">
 					<h3> Log in </h3>
-					<input type="text" value="" placeholder = "User Name" name="username" />
-					<br>
-					<input type="text" value="" placeholder = "Password" name="password" />
-					<br>
+					<br />
+					User Name:<input type="text" value="" size = "30" name="username" />
+					<br />
+					Password: <input type="password" value="" label = "Password" size = "30" placeholder = "Must have at least 8 characters "name="password" />
+					<br />
 					<input type="submit" value="Log in" />
 				</form>
 

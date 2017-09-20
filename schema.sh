@@ -6,7 +6,8 @@ mysql -u webadmin --password=adminadmin -e "
   drop table IF EXISTS blacklist;
   drop table IF EXISTS products;
 
-  CREATE TABLE users (username VARCHAR(20) CHARACTER SET utf8,
+  CREATE TABLE users (username VARCHAR(100) CHARACTER SET utf8,
+                      address VARCHAR(200),
                       password VARCHAR(200),
                       salt VARCHAR(50));
   CREATE TABLE blacklist (password VARCHAR(200));
@@ -18,7 +19,7 @@ mysql -u webadmin --password=adminadmin -e "
 
   INSERT INTO blacklist (password)
     VALUES
-    ('abcd1234'),
+    ('Abcd1234'),
     ('12345678'),
     ('11111111'),
     ('11223344'),

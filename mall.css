@@ -32,6 +32,9 @@
 	float: left;
 	text-align: center;
   }
+.product img {
+  margin-bottom: 20px;
+}
 
 	.f1 {
 		padding:10px;
@@ -124,4 +127,5 @@
 
 	.login-form {
 		padding: 60px;
+
 	}
