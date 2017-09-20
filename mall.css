@@ -101,6 +101,12 @@
 	padding: 10px;
 	border: 1px solid black;
 }
+#checkout_table{
+	border-collapse: collapse;
+  padding: 10px;
+  text-align: center;
+}
+
 
 
   header h1 {

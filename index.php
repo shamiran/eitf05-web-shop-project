@@ -65,7 +65,7 @@
 				<form action="login.php" method="post">
 					<h3> Log in </h3>
 					<br />
-					User Name:<input type="text" value="" size = "30" name="username" />
+					User Name:<input type="text" value="" placeholder ="Email address"size = "30" name="username" />
 					<br />
 					Password: <input type="password" value="" label = "Password" size = "30" placeholder = "Must have at least 8 characters "name="password" />
 					<br />

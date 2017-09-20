@@ -98,12 +98,10 @@
 						$row = $result->fetch_assoc();
 						$address = $row['address'];
 						echo '
-						<form action="" method="post">
+						<form action="checkout.php" method="post">
 						<h3> Checkout </h3>
 						<br />
 						Address:<input type="text" value='.$address.' size = "30" name="address" />
-						<br />
-						<input type="hidden" value=' . $totalPrice . ' "name="price" disabled />
 						<br />
 						<input type="submit" value="Check out" />
 						</form>';
