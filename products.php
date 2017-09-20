@@ -81,9 +81,7 @@
 					echo '<div class="product">
 								<h4>' . $row['name'] . '</h4>
 								<img src = '. $row['image'] .' alt=' . $row['name'] . ' height="200px">
-								<br />
-								'. $row['price'] .'$
-								<br />
+								<p>'. $row['price'] .'$<p>
 								<a href="products.php?id='.$row['id'].'"> Add to cart</a>
 								</div>';
 					$i++;

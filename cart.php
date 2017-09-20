@@ -13,7 +13,7 @@
 			$i++;
 		}
 	$_SESSION['cart'][$_SESSION['num_products']-1] = null;
-			
+
 	$_SESSION['num_products']--;
 	}
 ?>
@@ -70,9 +70,11 @@
 			}
 			?>
 
-			<div class="product-list"><center>
+			<div class="product-list">
+				<h2>Shopping cart</h3>
+				<center>
 				<?php
-
+					$totalPrice = 0;
 					$n = $_SESSION['num_products'];
 					if($n == 0){
 						echo 'The shopping cart is empty.';
@@ -85,8 +87,27 @@
 							$row = $result->fetch_assoc();
 							echo '<tr><td>'.$row['name'].'</td><td>$'.$row['price'] . '</td><td><a href="cart.php?remove='.$i.'">Remove</a></td></tr>';
 							$i++;
+							$totalPrice = $totalPrice + $row['price'];
 						}
 						echo '</table>';
+						echo '<br /> The total price is ' . $totalPrice . '$<br />';
+
+						$name = $_SESSION['username'] ;
+						$sql = "SELECT address FROM users WHERE username =  '$name' LIMIT 1";
+						$result = $conn->query($sql);
+						$row = $result->fetch_assoc();
+						$address = $row['address'];
+						echo '
+						<form action="" method="post">
+						<h3> Checkout </h3>
+						<br />
+						Address:<input type="text" value='.$address.' size = "30" name="address" />
+						<br />
+						<input type="hidden" value=' . $totalPrice . ' "name="price" disabled />
+						<br />
+						<input type="submit" value="Check out" />
+						</form>';
+
 					}
 				?>
 			</center></div>

@@ -20,13 +20,19 @@
 		<main class="content">
 
 			<div class="login-form">
-
-<form action="register_post.php" method="post">
-Username: <input type="text" value="" name="username" /><br />
-Password: <input type="text" value="" name="password" /><br />
-Password again: <input type="text" value="" name="password2" />
-<input type="submit" value="Register" />
-</form>
+				<h2> Register new user</h2>
+				<form action="register_post.php" method="post">
+					<p>Enter your e-mail address as user name, "example@gmail.com" :</p>
+					Username: <input type="text" value="" name="username" /><br /><br />
+					<p>Enter your home address for leverance :</p>
+					Home address: <input type="text" value="" name="address" size="35" /><br /><br />
+					<p>Enter your desired password, need to be at least 8 characters,<br />
+					contain at least one lower case letter, one upper case letter and one digit :
+					</p>
+					Password: <input type="password" value="" name="password" /><br />
+					Password again: <input type="password" value="" name="password2" /> <br /><br />
+					<input type="submit" value="Register" />
+				</form>
 			</div>
 		</main>
 		<footer>

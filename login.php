@@ -14,9 +14,11 @@
 	    die("Connection failed: " . $conn->connect_error);
 	}
 
-
-	$username = $_REQUEST['username'];
-	$password = $_REQUEST['password'];
+	//strip tags to remove if trying to insert html tags
+	//trim to remove whitespace
+	//htmlspecialchars????
+	$username = strip_tags(trim($_REQUEST['username']));
+	$password = strip_tags($_REQUEST['password']);
 
 $sql = "SELECT * FROM users WHERE username LIKE '" . $username . "'";
 
@@ -64,11 +66,12 @@ if($result->num_rows == 0){
 				echo 'Hello world! <br />';
 			?>
 			<div class="login-form">
-				<?php 
+				<?php
 					if($login){
 						echo 'User found. Password correct';
 					} else {
-						echo 'Wrong username or password';
+						echo '<h3>Wrong username or password</h3>';
+						echo '<a href="index.php"> Back to login </a>';
 					}
 				?>
 			</div>
