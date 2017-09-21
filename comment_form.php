@@ -49,10 +49,8 @@ if ($conn->connect_error) {
 		</main>
 		<footer>
 			<div class="f1">
-				teeeeesting
 			</div>
 			<div class="f2">
-				testing2
 			</div>
 		</footer>
 	</div>

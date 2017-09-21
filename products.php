@@ -31,21 +31,28 @@
 				<div class=active-user>
 					<?php if(isset($_SESSION['username'])){
 						echo 'Logged in as ' . $_SESSION['username'] . '<br /><a href="index.php?logout=true">Log out</a>';
-						if(isset($_GET['id'])){
-							$_SESSION['cart'][$_SESSION['num_products']] = $_GET['id'];
-							$_SESSION['num_products']++;
-						}
 						} else {
 						echo 'Not logged in.<br /><a href="index.php">Log in</a> | <a href="register.php">Register new user</a>';
 						}
+					if(isset($_GET['id'])){
+				if(isset($_SESSION['num_products'] )){
+					$_SESSION['cart'][$_SESSION['num_products']] = $_GET['id'];
+					$_SESSION['num_products']++;
+
+				} else {
+					$_SESSION['cart'][0] = $_GET['id'];
+					$_SESSION['num_products'] = 1;
+				}
+			}
 					?>
 				</div>
 				<div class=shopping-cart>
-				<a href="cart.php"><img src="https://image.flaticon.com/icons/svg/2/2772.svg" alt="Shopping Cart" height="30px">Shopping Cart <?php if(isset($_SESSION['username'])&&$_SESSION['num_products']>0) echo '<strong>(' . $_SESSION['num_products'] . ')</strong>'; ?></a>
+				<a href="cart.php"><img src="https://image.flaticon.com/icons/svg/2/2772.svg" alt="Shopping Cart" height="30px">Shopping Cart <?php if(isset($_SESSION['num_products'])&&$_SESSION['num_products']>0) echo '<strong>(' . $_SESSION['num_products'] . ')</strong>'; ?></a>
 			</div>
 			</div>
 		</header>
 		<main class="content">
+			
 			<?php
 			$servername = "localhost";
 			$username = "webadmin";

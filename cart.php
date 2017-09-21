@@ -41,17 +41,13 @@
 				<div class=active-user>
 					<?php if(isset($_SESSION['username'])){
 						echo 'Logged in as ' . $_SESSION['username'] . '<br /><a href="index.php?logout=true">Log out</a>';
-						if(isset($_GET['id'])){
-							$_SESSION['cart'][$_SESSION['num_products']] = $_GET['id'];
-							$_SESSION['num_products']++;
-						}
 						} else {
 						echo 'Not logged in.<br /><a href="index.php">Log in</a> | <a href="register.php">Register new user</a>';
 						}
 					?>
 				</div>
 				<div class=shopping-cart>
-				<a href=""><img src="https://image.flaticon.com/icons/svg/2/2772.svg" alt="Shopping Cart"height="30px">Shopping Cart <?php if(isset($_SESSION['username'])&&$_SESSION['num_products']>0) echo '<strong>(' . $_SESSION['num_products'] . ')</strong>'; ?></a>
+				<a href="cart.php"><img src="https://image.flaticon.com/icons/svg/2/2772.svg" alt="Shopping Cart"height="30px">Shopping Cart <?php if($_SESSION['num_products']>0) echo '<strong>(' . $_SESSION['num_products'] . ')</strong>'; ?></a>
 			</div>
 			</div>
 		</header>
@@ -76,7 +72,7 @@
 				<?php
 					$totalPrice = 0;
 					$n = $_SESSION['num_products'];
-					if($n == 0){
+					if(!isset($_SESSION['num_products'])||$n == 0){
 						echo 'The shopping cart is empty.';
 					} else {
 						echo '<table id="cart_table"><tr><th>Product</th><th>Price</th><th></th></tr>';
@@ -92,24 +88,25 @@
 						echo '</table>';
 						echo '<br /> The total price is <strong> $' . $totalPrice . ' </strong><br /><br />';
 
+						if(isset($_SESSION['username'])){					
 						$name = $_SESSION['username'] ;
-						$sql = "SELECT address FROM users WHERE username =  '$name' LIMIT 1";
+						$sql = "SELECT address FROM users WHERE username LIKE  '".$name."' LIMIT 1";
 						$result = $conn->query($sql);
 						$row = $result->fetch_assoc();
 						$address = $row['address'];
 						echo '
 						<form action="checkout.php" method="post">
 						<h3> Delivery Details </h3>';
-						if(!isset($address)){
+						if(isset($address)){
 							$address=htmlspecialchars($address);
-							echo '<br /> '. $address .' ';
-							echo 'Address:<input type="text" value= "'.$address.'" size = "30" name="address" />';
+							echo 'Address: <input type="text" value= "'.$address.'" size = "30" name="address" />';
 						}	else {
-							echo 'Address:<input type="text" value= "" size = "30" name="address" />';
+							echo 'Address: <input type="text" value= "" size = "30" name="address" />';
 						}
 						echo '<br /><br />
 						<input type="submit" value="Check out" />
 						</form>';
+						}
 
 					}
 				?>
