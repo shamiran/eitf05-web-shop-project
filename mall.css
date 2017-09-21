@@ -41,6 +41,10 @@
 		padding:10px;
 	}
 
+  .comment {
+    padding-top: 20px;
+  }
+
 	nav {
 		padding: 0;
 		padding-top: 30px;

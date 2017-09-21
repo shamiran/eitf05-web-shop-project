@@ -1,4 +1,3 @@
-
 <?php
 	$login = false;
 
@@ -29,7 +28,7 @@ if($result->num_rows == 0){
 	$reason = 2;
 } else {
 	$row = $result->fetch_assoc();
-	
+
 	$sql = "UPDATE users SET lastLoginAttempt = '" . date("Y-m-d H:i:s") . "' WHERE username LIKE '" . $username . "'";
 	$conn->query($sql);
 
@@ -47,7 +46,7 @@ if($result->num_rows == 0){
 			$conn->query($sql);
 		} else {
 			$login = false;
-			$reason = 1;			
+			$reason = 1;
 
 			if($mysql_date_now->getTimestamp() - $date_lastLogin->getTimestamp() < 60){
 				$sql = "UPDATE users SET loginAttemptCount = loginAttemptCount + 1 WHERE username LIKE '".$username . "'";

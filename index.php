@@ -63,7 +63,7 @@
 						echo '<a href="index.php?logout=true">Log out</a>';
 					} else { echo '
 				<form action="login.php" method="post">
-					<h3> Log in </h3>
+					<h2> Log in </h2>
 					<br />
 					User Name:<input type="text" value="" placeholder ="Email address"size = "30" name="username" />
 					<br />
