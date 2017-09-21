@@ -34,7 +34,6 @@ if ($conn->connect_error) {
 				$name = strip_tags(trim($_POST['name']));
 				$comment = strip_tags($_POST['comment']);
 				$score = $_POST['score'];
-				$timestamp = $_POST['time'];
 
 
 				$query = "INSERT INTO `comments` (`name`, `comment`, `score`, `timestamp`) VALUES ('$name', '$comment', '$score', CURRENT_TIMESTAMP);";
@@ -42,6 +41,7 @@ if ($conn->connect_error) {
 				$conn->query($query);
 
 				echo "<h2>Thanks for the comment!</h2>";
+				echo '<a href="contact.php"> Back to Contact page </a>';
 
 ?>
 
