@@ -1,6 +1,6 @@
 <html>
 <head>
-<title>Contacts</title>
+<title>ExpressPhone Store</title>
 <link rel="stylesheet" type="text/css" href="mall.css" />
 </head>
 <body>
