@@ -48,14 +48,18 @@
 
   .disp-comment {
     margin:10px 0px;
+    max-width:100%;
+    word-wrap:break-word;
   }
   .left{
     width: 40%;
     float:left;
   }
   .right{
-    width: 60%;
+    width: 40%;
     float:right;
+
+    margin-top: 60px;
     overflow: auto;
     max-height: 100vh;
   }

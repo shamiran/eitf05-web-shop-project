@@ -62,7 +62,7 @@
 				<div class = "left">
 				<h2> Contact</h2>
 				<div class="email">
-					<h4> By Email </h4>
+					<h3> By Email </h3>
 					Customer support:
 					<?php
 					$to = "dat14sja@student.lu.se";
