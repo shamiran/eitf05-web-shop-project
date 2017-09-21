@@ -5,6 +5,7 @@ mysql -u webadmin --password=adminadmin -e "
   drop table IF EXISTS users;
   drop table IF EXISTS blacklist;
   drop table IF EXISTS products;
+  drop table IF EXISTS comments;
 
   CREATE TABLE users (username VARCHAR(100) CHARACTER SET utf8,
                       address VARCHAR(200),
@@ -19,6 +20,8 @@ mysql -u webadmin --password=adminadmin -e "
                          price VARCHAR(10),
                          image VARCHAR(200),
                          PRIMARY KEY (id));
+
+  CREATE TABLE comments (name VARCHAR(30) CHARACTER SET utf8, comment TEXT CHARACTER SET utf8, score INT, timestamp TIMESTAMP);
 
   INSERT INTO blacklist (password)
     VALUES
