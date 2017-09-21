@@ -1,4 +1,13 @@
 <html>
+<?php
+	if(isset($_GET['logout'])){
+		session_start();
+		session_unset();
+		session_destroy();
+	} else {
+		session_start();
+	}
+?>
 <head>
 <title>ExpressPhone Store</title>
 <link rel="stylesheet" type="text/css" href="mall.css" />
