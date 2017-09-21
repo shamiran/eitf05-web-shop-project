@@ -17,7 +17,7 @@
 		<header>
 			<h1> Webshop </h1>
 		</header>
-<?php include 'comment_display.php';?>;
+<?php include 'comment_display.php';?>
 		<main class="content">
 			<div class ="login-form">
 
