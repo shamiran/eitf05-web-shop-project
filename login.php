@@ -65,8 +65,6 @@ if($result->num_rows == 0){
 
 ?>
 
-?>
-
 <html>
 <head>
 <title>Min sida</title>
