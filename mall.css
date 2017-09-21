@@ -41,8 +41,23 @@
 		padding:10px;
 	}
 
-  .comment {
-    padding-top: 20px;
+  .comment-field {
+    padding-top: 10px;
+  }
+
+
+  .disp-comment {
+    margin:10px 0px;
+  }
+  .left{
+    width: 40%;
+    float:left;
+  }
+  .right{
+    width: 60%;
+    float:right;
+    overflow: auto;
+    max-height: 100vh;
   }
 
 	nav {
