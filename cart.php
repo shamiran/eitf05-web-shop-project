@@ -6,14 +6,14 @@
 	} else {
 		session_start();
 	}
-	if(isset($_GET['remove'])){
+	if(isset($_GET['remove'])&&$_SESSION['num_products']>0){
 		$i = $_GET['remove']+1;
 		while($i<$_SESSION['num_products']){
 			$_SESSION['cart'][$i-1] = $_SESSION['cart'][$i];
 			$i++;
 		}
 	$_SESSION['cart'][$_SESSION['num_products']-1] = null;
-
+	
 	$_SESSION['num_products']--;
 	}
 ?>
