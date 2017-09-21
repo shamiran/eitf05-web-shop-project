@@ -4,7 +4,6 @@
 <link rel="stylesheet" type="text/css" href="mall.css" />
 </head>
 <body>
-</body>
 	<nav class="col-1">
 		<ul>
 			<li><a href="index.php">Home</a></li>
@@ -15,8 +14,40 @@
 	</nav>
 	<div class="col-2">
 		<header>
-			<h1> Webshop </h1>
+			<div class=header-titel>
+				<img src = "https://challenge.burnerapp.com/img/logo.png" alt="Logo" height="50px">
+				<h1> ExpressPhone Store </h1>
+			</div>
+			<div class=header-info>
+				<div class=active-user>
+					<?php if(isset($_SESSION['username'])){
+						echo 'Logged in as ' . $_SESSION['username'] . '<br /><a href="index.php?logout=true">Log out</a>';
+						} else {
+						echo 'Not logged in.<br /><a href="index.php">Log in</a> | <a href="register.php">Register new user</a>';
+						}
+					?>
+				</div>
+				<div class=shopping-cart>
+				<a href="cart.php"><img src="https://image.flaticon.com/icons/svg/2/2772.svg" alt="Shopping Cart"height="30px">Shopping Cart <?php if(isset($_SESSION['username'])&&$_SESSION['num_products']>0) echo '<strong>(' . $_SESSION['num_products'] . ')</strong>'; ?></a>
+			</div>
+			</div>
 		</header>
+		<main class="content">
+			<?php
+			$servername = "localhost";
+			$username = "webadmin";
+			$password = "adminadmin";
+
+			// Create connection
+			$conn = new mysqli($servername, $username, $password,'webshop');
+
+			// Check connection
+			if ($conn->connect_error) {
+			    die("Connection failed: " . $conn->connect_error);
+			}
+
+			?>
+
 <?php include 'comment_display.php';?>
 		<main class="content">
 			<div class ="login-form">
@@ -39,12 +70,10 @@
 		</main>
 		<footer>
 			<div class="f1">
-				teeeeesting
 			</div>
 			<div class="f2">
-				testing2
 			</div>
 		</footer>
 	</div>
-</form>
+</body>
 </html>
