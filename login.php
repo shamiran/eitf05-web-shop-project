@@ -36,7 +36,7 @@ if($result->num_rows == 0){
 	$mysql_date_now = new DateTime("now");
 	$date_lastLogin = new DateTime($row['lastLoginAttempt']);
 
-	if($mysql_date_now->getTimestamp() - $date_lastLogin->getTimestamp() >= 60 || $row['loginAttemptCount']<5){
+	if($mysql_date_now->getTimestamp() - $date_lastLogin->getTimestamp() >= 60 || $row['loginAttemptCount']<5-1){
 		$salt = $row['salt'];
 		if(md5($password.$salt) === $row['password']){
 			$login = true;
