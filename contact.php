@@ -34,25 +34,14 @@
 						} else {
 						echo 'Not logged in.<br /><a href="index.php">Log in</a> | <a href="register.php">Register new user</a>';
 						}
-					if(isset($_GET['id'])){
-				if(isset($_SESSION['num_products'] )){
-					$_SESSION['cart'][$_SESSION['num_products']] = $_GET['id'];
-					$_SESSION['num_products']++;
-
-				} else {
-					$_SESSION['cart'][0] = $_GET['id'];
-					$_SESSION['num_products'] = 1;
-				}
-			}
 					?>
 				</div>
 				<div class=shopping-cart>
-				<a href="cart.php"><img src="https://image.flaticon.com/icons/svg/2/2772.svg" alt="Shopping Cart" height="30px">Shopping Cart <?php if(isset($_SESSION['num_products'])&&$_SESSION['num_products']>0) echo '<strong>(' . $_SESSION['num_products'] . ')</strong>'; ?></a>
+				<a href="cart.php"><img src="https://image.flaticon.com/icons/svg/2/2772.svg" alt="Shopping Cart"height="30px">Shopping Cart <?php if(isset($_SESSION['username'])&&$_SESSION['num_products']>0) echo '<strong>(' . $_SESSION['num_products'] . ')</strong>'; ?></a>
 			</div>
 			</div>
 		</header>
 		<main class="content">
-
 			<?php
 			$servername = "localhost";
 			$username = "webadmin";
@@ -65,51 +54,48 @@
 			if ($conn->connect_error) {
 			    die("Connection failed: " . $conn->connect_error);
 			}
+
 			?>
-			<div class="login-form">
-			<div class="product-list">
-				<h2> Products </h2>
-				<?php
-					$sql = "SELECT * FROM products";
-					$result = $conn->query($sql);
-					if($result){
-						$n = $result->num_rows;
-					} else {
-						$n = 0;
-					}
-					$i = 0;
-					$nrCols = 3;
 
-				echo '<table>';
-				echo '<tr>';
-				while($i < $n){
-					echo '<td align="center" valign="center">';
-					$row = $result->fetch_assoc();
-					echo '<div class="product">
-								<h4>' . $row['name'] . '</h4>
-								<img src = '. $row['image'] .' alt=' . $row['name'] . ' height="200px">
-								<p>'. $row['price'] .'$<p>
-								<a href="products.php?id='.$row['id'].'"> Add to cart</a>
-								</div>';
-					$i++;
-					echo '</td>';
-					if($i % $nrCols == 0){
-						echo '</tr>';
-						echo '<tr>';
-					}
-				}
-				echo '</tr>';
-				echo '</table>';
-
-
-
-				?>
+		<main class="content">
+			<div class ="login-form">
+				<div class = "left">
+				<h2> Contact</h2>
+				<div class="email">
+					<h3> By Email </h3>
+					Customer support:
+					<?php
+					$to = "dat14sja@student.lu.se";
+					$body = "";
+					echo "<a href='mailto:" . $to . "?body=" . $body . "'>Jaf Shamiran</a>";
+					?>
+					<p>Quick replies 24/7!</p>
+				</div>
+				<div class="comment-field">
+				<h3> Leave new comment</h3>
+				<form action="comment_form.php" method="post">
+					<p></p>
+					Name: <br /><input type="text" name="name"style ="width: 150px;"/><br />
+					<p></p>
+					Comment:<br /> <textarea name='comment'style ="width: 200px; height: 60px;"></textarea><br /><br />
+				  <input type="radio" name="score" value="1"> 1<br />
+				  <input type="radio" name="score" value="2"> 2<br />
+				  <input type="radio" name="score" value="3"> 3<br />
+				  <input type="radio" name="score" value="4"> 4<br />
+				  <input type="radio" name="score" value="5"> 5<br />
+					<p>Leave a comment about our site!</p>
+					<input type="submit" value="Submit" />
+				</form>
 			</div>
 		</div>
+		<div class = "right">
+			<h3> Comments </h3>
+			<?php include 'comment_display.php';?>
+		</div>
+			</div>
 		</main>
 		<footer>
 			<div class="f1">
-
 			</div>
 			<div class="f2">
 			</div>

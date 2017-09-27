@@ -1,4 +1,3 @@
-
 <?php
 	$login = false;
 
@@ -26,26 +25,47 @@ $result = $conn->query($sql);
 
 if($result->num_rows == 0){
 	$login = false;
+	$reason = 2;
 } else {
 	$row = $result->fetch_assoc();
 
-	$salt = $row['salt'];
+	$sql = "UPDATE users SET lastLoginAttempt = '" . date("Y-m-d H:i:s") . "' WHERE username LIKE '" . $username . "'";
+	$conn->query($sql);
 
-	if(md5($password.$salt) === $row['password']){
-		$login = true;
-		session_start();
-		$_SESSION["username"] = $username;
-		$_SESSION["num_products"] = 0;
+	$mysql_date_now = new DateTime("now");
+	$date_lastLogin = new DateTime($row['lastLoginAttempt']);
+
+	if($mysql_date_now->getTimestamp() - $date_lastLogin->getTimestamp() >= 60 || $row['loginAttemptCount']<5-1){
+		$salt = $row['salt'];
+		if(md5($password.$salt) === $row['password']){
+			$login = true;
+			session_start();
+			$_SESSION["username"] = $username;
+			//$_SESSION["num_products"] = 0;
+			$sql = "UPDATE users SET loginAttemptCount = 1 WHERE username LIKE '".$username . "'";
+			$conn->query($sql);
+		} else {
+			$login = false;
+			$reason = 1;
+
+			if($mysql_date_now->getTimestamp() - $date_lastLogin->getTimestamp() < 60){
+				$sql = "UPDATE users SET loginAttemptCount = loginAttemptCount + 1 WHERE username LIKE '".$username . "'";
+				$conn->query($sql);
+			} else {
+				$sql = "UPDATE users SET loginAttemptCount = 1 WHERE username LIKE '".$username . "'";
+				$conn->query($sql);
+			}
+		}
 	} else {
 		$login = false;
+		$reason = 0;
 	}
 }
 
 ?>
-
 <html>
 <head>
-<title>Min sida</title>
+<title>ExpressPhone Store</title>
 <link rel="stylesheet" type="text/css" href="mall.css" />
 </head>
 <body>
@@ -59,18 +79,37 @@ if($result->num_rows == 0){
 	</nav>
 	<div class="col-2">
 		<header>
-			<h1> Webshop </h1>
+			<div class=header-titel>
+				<img src = "https://challenge.burnerapp.com/img/logo.png" alt="Logo" height="50px">
+				<h1> ExpressPhone Store </h1>
+			</div>
+			<div class=header-info>
+				<div class=active-user>
+					<?php if(isset($_SESSION['username'])){
+						echo 'Logged in as ' . $_SESSION['username'] . '<br /><a href="index.php?logout=true">Log out</a>';
+						} else {
+						echo 'Not logged in.<br /><a href="index.php">Log in</a> | <a href="register.php">Register new user</a>';
+						}
+					?>
+				</div>
+				<div class=shopping-cart>
+				<a href="cart.php"><img src="https://image.flaticon.com/icons/svg/2/2772.svg" alt="Shopping Cart"height="30px">Shopping Cart <?php if(isset($_SESSION['username'])&&$_SESSION['num_products']>0) echo '<strong>(' . $_SESSION['num_products'] . ')</strong>'; ?></a>
+			</div>
+			</div>
 		</header>
 		<main class="content">
-			<?php
-				echo 'Hello world! <br />';
-			?>
 			<div class="login-form">
 				<?php
 					if($login){
 						echo 'User found. Password correct';
 					} else {
-						echo '<h3>Wrong username or password</h3>';
+						if($reason==0){
+							echo 'Too many recent login attempts, please wait 60 seconds';
+						} else if($reason==1){
+							echo 'Wrong username or password';
+						} else {
+							echo 'User not found';
+						}
 						echo '<a href="index.php"> Back to login </a>';
 					}
 				?>
@@ -78,15 +117,8 @@ if($result->num_rows == 0){
 		</main>
 		<footer>
 			<div class="f1">
-				<?php if(isset($_SESSION['username'])){
-					echo 'Logged in as ' . $_SESSION['username'] . '<br /><a href="index.php?logout=true">Log out</a>';
-					} else {
-					echo 'Not logged in.<br /><a href="index.php">Log in</a> | <a href="register.php">Register new user</a>';
-					}
-				?>
 			</div>
 			<div class="f2">
-				testing2
 			</div>
 		</footer>
 	</div>

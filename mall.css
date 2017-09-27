@@ -28,7 +28,8 @@
 .product {
 	width: 300px;
 	height: 300px;
-	margin: 50px;
+	margin: 0px;
+	margin-bottom: 100px;
 	float: left;
 	text-align: center;
   }
@@ -39,6 +40,29 @@
 	.f1 {
 		padding:10px;
 	}
+
+  .comment-field {
+    padding-top: 10px;
+  }
+
+
+  .disp-comment {
+    margin:10px 0px;
+    max-width:100%;
+    word-wrap:break-word;
+  }
+  .left{
+    width: 40%;
+    float:left;
+  }
+  .right{
+    width: 40%;
+    float:right;
+
+    margin-top: 60px;
+    overflow: auto;
+    max-height: 100vh;
+  }
 
 	nav {
 		padding: 0;
@@ -101,6 +125,11 @@
 	padding: 10px;
 	border: 1px solid black;
 }
+#checkout_table{
+	border-collapse: collapse;
+  padding: 10px;
+}
+
 
 
   header h1 {

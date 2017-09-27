@@ -1,6 +1,15 @@
+<?php
+	if(isset($_GET['logout'])){
+		session_start();
+		session_unset();
+		session_destroy();
+	} else {
+		session_start();
+	}
+?>
 <html>
 <head>
-<title>Min sida</title>
+<title>ExpressPhone Store</title>
 <link rel="stylesheet" type="text/css" href="mall.css" />
 </head>
 <body>
@@ -14,11 +23,25 @@
 	</nav>
 	<div class="col-2">
 		<header>
-			<img src = "https://challenge.burnerapp.com/img/logo.png" height="50px">
-			<h1> BurnerPhone Store </h1>
+			<div class=header-titel>
+				<img src = "https://challenge.burnerapp.com/img/logo.png" alt="Logo" height="50px">
+				<h1> ExpressPhone Store </h1>
+			</div>
+			<div class=header-info>
+				<div class=active-user>
+					<?php if(isset($_SESSION['username'])){
+						echo 'Logged in as ' . $_SESSION['username'] . '<br /><a href="index.php?logout=true">Log out</a>';
+						} else {
+						echo 'Not logged in.<br /><a href="index.php">Log in</a> | <a href="register.php">Register new user</a>';
+						}
+					?>
+				</div>
+				<div class=shopping-cart>
+				<a href="cart.php"><img src="https://image.flaticon.com/icons/svg/2/2772.svg" alt="Shopping Cart"height="30px">Shopping Cart <?php if(isset($_SESSION['username'])&&$_SESSION['num_products']>0) echo '<strong>(' . $_SESSION['num_products'] . ')</strong>'; ?></a>
+			</div>
+			</div>
 		</header>
 		<main class="content">
-
 			<div class="login-form">
 				<h2> Register new user</h2>
 				<form action="register_post.php" method="post">
@@ -37,10 +60,8 @@
 		</main>
 		<footer>
 			<div class="f1">
-				teeeeesting
 			</div>
 			<div class="f2">
-				testing2
 			</div>
 		</footer>
 	</div>
