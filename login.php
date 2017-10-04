@@ -16,8 +16,8 @@
 	//strip tags to remove if trying to insert html tags
 	//trim to remove whitespace
 	//htmlspecialchars????
-	$username = strip_tags(trim($_REQUEST['username']));
-	$password = strip_tags($_REQUEST['password']);
+	$username = mysqli_real_escape_string($conn,$_REQUEST['username']));
+	$password = mysqli_real_escape_string($conn,$_REQUEST['password']));
 
 $sql = "SELECT * FROM users WHERE username LIKE '" . $username . "'";
 

@@ -64,7 +64,7 @@
 			if($_REQUEST['csrftoken']!==$_SESSION['csrftoken']){
 				echo 'Wrong token!';
 			} else {
-			$address = strip_tags($_POST['address']);
+			$address = htmlspecialchars($_POST['address']);
 			if ($address == "") {
 				echo "<h3>No delivery address was filled in </h3>";
 				echo '<a href="cart.php"> Back to cart </a>';

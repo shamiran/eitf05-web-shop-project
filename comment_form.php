@@ -31,9 +31,13 @@ if ($conn->connect_error) {
 }
 				//strip tags to remove if trying to insert html tags
 				//trim to remove whitespace
-				$name = strip_tags(trim($_POST['name']));
+				$name = strip_tags($_POST['name']);
+				$name = htmlspecialchars($name)
+				$name = mysqli_real_escape_string($conn,$name);
 				$comment = strip_tags($_POST['comment']);
-				$score = $_POST['score'];
+				$comment = htmlspecialchars($comment);
+				$comment = mysqli_real_escape_string($conn, $comment);
+				$score = mysqli_real_escape_string($_POST['score']);
 
 
 				$query = "INSERT INTO `comments` (`name`, `comment`, `score`, `timestamp`) VALUES ('$name', '$comment', '$score', CURRENT_TIMESTAMP);";

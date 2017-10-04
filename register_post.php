@@ -56,10 +56,10 @@ if ($conn->connect_error) {
 }
 				//strip tags to remove if trying to insert html tags
 				//trim to remove whitespace
-				$username = strip_tags(trim($_POST['username']));
-				$password = strip_tags($_POST['password']);
-				$password2 = strip_tags($_POST['password2']);
-				$address = strip_tags($_POST['address']);
+				$username = mysqli_real_escape_string($conn,$_POST['username']);
+				$password = mysqli_real_escape_string($conn,$_POST['password']);
+				$password2 = mysqli_real_escape_string($conn,$_POST['password2']);
+				$address = mysqli_real_escape_string($conn,$_POST['address']);
 				$blacklistTest = false;
 
 				$sql = "SELECT * FROM blacklist";
