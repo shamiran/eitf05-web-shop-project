@@ -1,4 +1,3 @@
-<html>
 <?php
 	if(isset($_GET['logout'])){
 		session_start();
@@ -8,6 +7,7 @@
 		session_start();
 	}
 ?>
+<html>
 <head>
 <title>ExpressPhone Store</title>
 <link rel="stylesheet" type="text/css" href="mall.css" />
@@ -57,24 +57,41 @@
 
 			?>
 
-<?php include 'comment_display.php';?>
 		<main class="content">
 			<div class ="login-form">
-
-				<h2> Leave new comment</h2>
+				<div class = "left">
+				<h2> Contact</h2>
+				<div class="email">
+					<h3> By Email </h3>
+					Customer support:
+					<?php
+					$to = "dat14sja@student.lu.se";
+					$body = "";
+					echo "<a href='mailto:" . $to . "?body=" . $body . "'>Jaf Shamiran</a>";
+					?>
+					<p>Quick replies 24/7!</p>
+				</div>
+				<div class="comment-field">
+				<h3> Leave new comment</h3>
 				<form action="comment_form.php" method="post">
 					<p></p>
-					Name: <input type="text" name="name" /><br /><br />
+					Name: <br /><input type="text" name="name"style ="width: 150px;"/><br />
 					<p></p>
-					Comment:<br /> <textarea name='comment'></textarea><br />
-  <input type="radio" name="score" value="1"> 1<br />
-  <input type="radio" name="score" value="2"> 2<br />
-  <input type="radio" name="score" value="3"> 3<br />
-  <input type="radio" name="score" value="4"> 4<br />
-  <input type="radio" name="score" value="5"> 5<br />
+					Comment:<br /> <textarea name='comment'style ="width: 200px; height: 60px;"></textarea><br /><br />
+				  <input type="radio" name="score" value="1"> 1<br />
+				  <input type="radio" name="score" value="2"> 2<br />
+				  <input type="radio" name="score" value="3"> 3<br />
+				  <input type="radio" name="score" value="4"> 4<br />
+				  <input type="radio" name="score" value="5"> 5<br />
 					<p>Leave a comment about our site!</p>
 					<input type="submit" value="Submit" />
 				</form>
+			</div>
+		</div>
+		<div class = "right">
+			<h3> Comments </h3>
+			<?php include 'comment_display.php';?>
+		</div>
 			</div>
 		</main>
 		<footer>
