@@ -60,6 +60,10 @@
       <div class="receipt">
       <center>
 			<?php
+
+			if($_REQUEST['csrftoken']!==$_SESSION['csrftoken']){
+				echo 'Wrong token!';
+			} else {
 			$address = strip_tags($_POST['address']);
 			if ($address == "") {
 				echo "<h3>No delivery address was filled in </h3>";
@@ -89,6 +93,7 @@
 
 	      //remove all items from cart
 	        $_SESSION['num_products'] = 0;
+			}
 			}
 			?>
     </center>

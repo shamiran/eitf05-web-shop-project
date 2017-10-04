@@ -19,7 +19,7 @@
 ?>
 <html>
 <head>
-<title>Min sida</title>
+<title>ExpressPhone Store</title>
 <link rel="stylesheet" type="text/css" href="mall.css" />
 </head>
 <body>
@@ -89,7 +89,7 @@
 						echo '<br /> The total price is <strong> $' . $totalPrice . ' </strong><br /><br />';
 
 						if(isset($_SESSION['username'])){					
-						$name = $_SESSION['username'] ;
+						$name = $_SESSION['username'];
 						$sql = "SELECT address FROM users WHERE username LIKE  '".$name."' LIMIT 1";
 						$result = $conn->query($sql);
 						$row = $result->fetch_assoc();
@@ -104,6 +104,7 @@
 							echo 'Address: <input type="text" value= "" size = "30" name="address" />';
 						}
 						echo '<br /><br />
+						<input type="hidden" name="csrftoken" value="' . $_SESSION['csrftoken'] . '" /> 
 						<input type="submit" value="Check out" />
 						</form>';
 						}

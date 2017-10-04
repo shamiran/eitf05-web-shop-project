@@ -39,8 +39,10 @@ if($result->num_rows == 0){
 	if($mysql_date_now->getTimestamp() - $date_lastLogin->getTimestamp() >= 60 || $row['loginAttemptCount']<5-1){
 		$salt = $row['salt'];
 		if(md5($password.$salt) === $row['password']){
+			$token = makeMeAToken(40);
 			$login = true;
 			session_start();
+			$_SESSION["csrftoken"] = $token;
 			$_SESSION["username"] = $username;
 			//$_SESSION["num_products"] = 0;
 			$sql = "UPDATE users SET loginAttemptCount = 1 WHERE username LIKE '".$username . "'";
@@ -61,6 +63,17 @@ if($result->num_rows == 0){
 		$login = false;
 		$reason = 0;
 	}
+}
+
+function makeMeAToken($max=40){
+         $i = 0;
+         $salt = "";
+         $characterList = "./ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+         while ($i < $max) {
+            $salt .= $characterList{mt_rand(0, (strlen($characterList) - 1))};
+            $i++;
+         }
+         return $salt;
 }
 
 ?>
