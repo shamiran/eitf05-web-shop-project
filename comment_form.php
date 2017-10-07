@@ -29,22 +29,17 @@ $conn = new mysqli($servername, 'webadmin', 'adminadmin','webshop');
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
-				//strip tags to remove if trying to insert html tags
-				//trim to remove whitespace
-				$name = strip_tags($_POST['name']);
-				$name = htmlspecialchars($name)
-				$name = mysqli_real_escape_string($conn,$name);
-				$comment = strip_tags($_POST['comment']);
-				$comment = htmlspecialchars($comment);
-				$comment = mysqli_real_escape_string($conn, $comment);
-				$score = mysqli_real_escape_string($_POST['score']);
+				$stmt = $conn->prepare("INSERT INTO comments (name, comment, score) VALUES (?, ?, ?)");
+				$stmt->bind_param("ssi", $name, $comment, $score);
 
-
-				$query = "INSERT INTO `comments` (`name`, `comment`, `score`, `timestamp`) VALUES ('$name', '$comment', '$score', CURRENT_TIMESTAMP);";
-
-				$conn->query($query);
+				$name = htmlspecialchars($_POST['name']);
+				$comment = htmlspecialchars($_POST['comment']);
+				$score = htmlspecialchars($_POST['score']);
+				$stmt->execute();
 
 				echo "<h2>Thanks for the comment!</h2>";
+				$stmt->close();
+				$conn->close();
 				echo '<a href="contact.php"> Back to Contact page </a>';
 
 ?>
