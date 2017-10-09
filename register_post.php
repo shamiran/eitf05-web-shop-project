@@ -54,12 +54,14 @@ $conn = new mysqli($servername, 'webadmin', 'adminadmin','webshop');
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
-				//strip tags to remove if trying to insert html tags
-				//trim to remove whitespace
-				$username = mysqli_real_escape_string($conn,$_POST['username']);
-				$password = mysqli_real_escape_string($conn,$_POST['password']);
-				$password2 = mysqli_real_escape_string($conn,$_POST['password2']);
-				$address = mysqli_real_escape_string($conn,$_POST['address']);
+
+				$stmt = $conn->prepare("SELECT * FROM users WHERE (username) LIKE (?)");
+				$stmt2 = $conn->prepare("INSERT INTO users (username, address, password, salt, lastLoginAttempt, loginAttemptCount) VALUES ( (?), (?), (?), (?), (?), (?) )");
+				$username = $_POST['username'];
+				$password = $_POST['password'];
+				$password2 = $_POST['password2'];
+				$address = htmlspecialchars($_POST['address']);
+
 				$blacklistTest = false;
 
 				$sql = "SELECT * FROM blacklist";
@@ -75,25 +77,34 @@ if ($conn->connect_error) {
 }
 
 if($blacklistTest){
+
 	echo 'Too common password!';
+
 } else if($username == "" || $username == null || $password == "" || $password == null){
+
 	echo '<h3>Username and/or password not filled in.</h3>';
 	echo '<a href="register.php"> Back to register </a>';
-}
-	//the password must be at least 8 characters,
-	//contain at least one lower case letter, one upper case letter and one digit
-	else if(!preg_match("/^.*(?=.{8,})(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).*$/", $password)) {
-		echo '<h3>Password is not strong enough, not containing password conditions </h3>';
-		echo '<a href="register.php"> Back to register </a>';
-}
-//The username should be an email-adress
-else if(!preg_match("/^[^0-9][A-z0-9_]+([.][A-z0-9_]+)*[@][A-z0-9_]+([.][A-z0-9_]+)*[.][A-z]{2,4}$/", $username)){
-echo 'The username is not an email-adress';
-echo '<a href="register.php"> Back to register </a>';
-}
-else if($password === $password2){
-	$sql = "SELECT * FROM users WHERE username LIKE '" . $username . "'";
-	$result = $conn->query($sql);
+
+} else if(!preg_match("/^.*(?=.{8,})(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).*$/", $password)) {
+
+	echo '<h3>Password is not strong enough, not containing password conditions </h3>';
+	echo '<a href="register.php"> Back to register </a>';
+
+} else if(!preg_match("/^[^0-9][A-z0-9_]+([.][A-z0-9_]+)*[@][A-z0-9_]+([.][A-z0-9_]+)*[.][A-z]{2,4}$/", $username)){
+
+	echo 'The username is not an email-adress';
+	echo '<a href="register.php"> Back to register </a>';
+
+} else if($password === $password2){
+
+	if (!$stmt) {
+		echo "false";
+	} else {
+		$stmt->bind_param("s", $username);
+		$stmt->execute();
+	}
+	$result = $stmt->get_result();
+
 	if($result->num_rows > 0){
 		echo '<h3>Username already occupied</h3>';
 		echo '<a href="register.php"> Back to register </a>';
@@ -102,25 +113,33 @@ else if($password === $password2){
 
 		$saltlength = 6;
 		$strong = true;
-		//$salt = openssl_random_pseudo_bytes($saltlength,$strong);
-		//$salt = random_bytes($saltlength);
 		$salt = makeMeASalt(6);
+		$saltedpassword = md5($password.$salt);
 
 		$mysql_date_now = date("Y-m-d H:i:s");
-		$sql = "INSERT INTO users (username, address, password, salt, lastLoginAttempt, loginAttemptCount) VALUES ('" . $username . "', '" . $address . "', '" . md5($password.$salt) . "', '" . $salt . "', '" . $mysql_date_now ."', " . 0 .")";
-
-		if($conn->query($sql)===TRUE){
-			echo '<h3>User registered</h3>';
-			echo '<a href="index.php"> Back to login </a>';
+		
+		if (!$stmt2) {
+			echo "false";
 		} else {
-			echo '<h3>Unknown error</h3>';
-			echo '<a href="register.php"> Back to register </a>';
 
+			$stmt2->bind_param("sssssi", $username, $address, $saltedpassword, $salt, $lastLoginAttempt, $loginAttemptCount);
+			if($stmt2->execute()===TRUE){
+				echo '<h3>User registered</h3>';
+				echo '<a href="index.php"> Back to login </a>';
+				$stmt->close();
+				$stmt2->close();
+				$conn->close();
+			} else {
+				echo '<h3>Unknown error</h3>';
+				echo '<a href="register.php"> Back to register </a>';
+			}
 		}
-	}
+	} 
 } else {
+
 	echo '<h3>Passwords do not match!</h3>';
 	echo '<a href="register.php"> Back to register </a>';
+
 }
 
 function makeMeASalt($max=40){
