@@ -45,9 +45,8 @@ if($result->num_rows == 0){
 	$date_lastLogin = new DateTime($row['lastLoginAttempt']);
 
 	if($mysql_date_now->getTimestamp() - $date_lastLogin->getTimestamp() >= 60 || $row['loginAttemptCount']<5-1){
-		$salt = $row['salt'];
 		$lac = $row['loginAttemptCount'];
-		if(md5($password.$salt) === $row['password']){
+		if(password_verify($password, $row['password'])){
 			$token = makeMeAToken(40);
 			$login = true;
 			session_start();

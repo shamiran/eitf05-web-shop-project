@@ -10,7 +10,6 @@ mysql -u webadmin --password=adminadmin -e "
   CREATE TABLE users (username VARCHAR(100) CHARACTER SET utf8,
                       address VARCHAR(200),
                       password VARCHAR(200),
-                      salt VARCHAR(50),
 			lastLoginAttempt TIMESTAMP,
 			loginAttemptCount INT
 			);

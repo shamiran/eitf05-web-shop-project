@@ -56,7 +56,7 @@ if ($conn->connect_error) {
 }
 
 				$stmt = $conn->prepare("SELECT * FROM users WHERE (username) LIKE (?)");
-				$stmt2 = $conn->prepare("INSERT INTO users (username, address, password, salt, lastLoginAttempt, loginAttemptCount) VALUES ( (?), (?), (?), (?), (?), (?) )");
+				$stmt2 = $conn->prepare("INSERT INTO users (username, address, password, lastLoginAttempt, loginAttemptCount) VALUES ( (?), (?), (?), (?), (?) )");
 				$username = $_POST['username'];
 				$password = $_POST['password'];
 				$password2 = $_POST['password2'];
@@ -111,10 +111,7 @@ if($blacklistTest){
 
 	} else {
 
-		$saltlength = 6;
-		$strong = true;
-		$salt = makeMeASalt(6);
-		$saltedpassword = md5($password.$salt);
+		$hashed_password = password_hash($password, PASSWORD_BCRYPT);
 
 		$mysql_date_now = date("Y-m-d H:i:s");
 		
@@ -122,7 +119,7 @@ if($blacklistTest){
 			echo "false";
 		} else {
 
-			$stmt2->bind_param("sssssi", $username, $address, $saltedpassword, $salt, $lastLoginAttempt, $loginAttemptCount);
+			$stmt2->bind_param("ssssi", $username, $address, $hashed_password, $lastLoginAttempt, $loginAttemptCount);
 			if($stmt2->execute()===TRUE){
 				echo '<h3>User registered</h3>';
 				echo '<a href="index.php"> Back to login </a>';
@@ -140,17 +137,6 @@ if($blacklistTest){
 	echo '<h3>Passwords do not match!</h3>';
 	echo '<a href="register.php"> Back to register </a>';
 
-}
-
-function makeMeASalt($max=40){
-         $i = 0;
-         $salt = "";
-         $characterList = "./ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-         while ($i < $max) {
-            $salt .= $characterList{mt_rand(0, (strlen($characterList) - 1))};
-            $i++;
-         }
-         return $salt;
 }
 
 ?>
