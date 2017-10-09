@@ -51,7 +51,8 @@ if($result->num_rows == 0){
 			$token = makeMeAToken(40);
 			$login = true;
 			session_start();
-			$_SESSION["csrftoken"] = $token;
+			if(!isset($_SESSION['csrftoken']))
+				$_SESSION["csrftoken"] = $token;
 			$_SESSION["username"] = $username;
 			//$_SESSION["num_products"] = 0;
 			if (!$stmt3) {

@@ -6,7 +6,10 @@
 	} else {
 		session_start();
 	}
-	if(isset($_GET['remove'])&&$_SESSION['num_products']>0){
+	if(!isset($_SESSION['csrftoken'])){
+		$_SESSION['csrftoken'] = makeMeAToken(40);
+	}
+	if(isset($_GET['remove'])&&$_SESSION['num_products']>0&&$_SESSION['csrftoken']===$_GET['csrftoken']){
 		$i = $_GET['remove']+1;
 		while($i<$_SESSION['num_products']){
 			$_SESSION['cart'][$i-1] = $_SESSION['cart'][$i];
@@ -16,6 +19,17 @@
 	
 	$_SESSION['num_products']--;
 	}
+
+function makeMeAToken($max=40){
+         $i = 0;
+         $salt = "";
+         $characterList = "./ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+         while ($i < $max) {
+            $salt .= $characterList{mt_rand(0, (strlen($characterList) - 1))};
+            $i++;
+         }
+         return $salt;
+}
 ?>
 <html>
 <head>
@@ -81,7 +95,7 @@
 							$sql = "SELECT * FROM products WHERE id = " . $_SESSION['cart'][$i];
 							$result = $conn->query($sql);
 							$row = $result->fetch_assoc();
-							echo '<tr><td>'.$row['name'].'</td><td>$'.$row['price'] . '</td><td><a href="cart.php?remove='.$i.'">Remove</a></td></tr>';
+							echo '<tr><td>'.$row['name'].'</td><td>$'.$row['price'] . '</td><td><a href="cart.php?remove='.$i.'&csrftoken='.$_SESSION['csrftoken'].'">Remove</a></td></tr>';
 							$i++;
 							$totalPrice = $totalPrice + $row['price'];
 						}

@@ -6,6 +6,19 @@
 	} else {
 		session_start();
 	}
+	if(!isset($_SESSION['csrftoken'])){
+		$_SESSION['csrftoken'] = makeMeAToken(40);
+	}
+function makeMeAToken($max=40){
+         $i = 0;
+         $salt = "";
+         $characterList = "./ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+         while ($i < $max) {
+            $salt .= $characterList{mt_rand(0, (strlen($characterList) - 1))};
+            $i++;
+         }
+         return $salt;
+}
 ?>
 <html>
 <head>
@@ -35,15 +48,16 @@
 						echo 'Not logged in.<br /><a href="index.php">Log in</a> | <a href="register.php">Register new user</a>';
 						}
 					if(isset($_GET['id'])){
-				if(isset($_SESSION['num_products'] )){
-					$_SESSION['cart'][$_SESSION['num_products']] = $_GET['id'];
-					$_SESSION['num_products']++;
-
-				} else {
-					$_SESSION['cart'][0] = $_GET['id'];
-					$_SESSION['num_products'] = 1;
-				}
-			}
+						if($_SESSION['csrftoken']===$_GET['csrftoken']){
+						if(isset($_SESSION['num_products'] )){
+							$_SESSION['cart'][$_SESSION['num_products']] = $_GET['id'];
+							$_SESSION['num_products']++;
+						} else {
+							$_SESSION['cart'][0] = $_GET['id'];
+							$_SESSION['num_products'] = 1;
+						}
+						}
+					}
 					?>
 				</div>
 				<div class=shopping-cart>
@@ -88,9 +102,14 @@
 					echo '<div class="product">
 								<h4>' . $row['name'] . '</h4>
 								<img src = '. $row['image'] .' alt=' . $row['name'] . ' height="200px">
-								<p>'. $row['price'] .'$<p>
-								<a href="products.php?id='.$row['id'].'"> Add to cart</a>
+								<p>'. $row['price'] .'$<p>';
+					if(isset($_SESSION['csrftoken'])){
+						echo '<a href="products.php?id='.$row['id'].'&csrftoken='.$_SESSION['csrftoken'].'"> Add to cart</a>
 								</div>';
+					} else {
+						echo '<a href="products.php?id='.$row['id'].'"> Add to cart</a>
+								</div>';
+					}
 					$i++;
 					echo '</td>';
 					if($i % $nrCols == 0){
