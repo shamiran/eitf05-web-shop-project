@@ -116,7 +116,7 @@ function makeMeAToken($max=40){
 			<div class=header-info>
 				<div class=active-user>
 					<?php if(isset($_SESSION['username'])){
-						echo 'Logged in as ' . $_SESSION['username'] . '<br /><a href="index.php?logout=true">Log out</a>';
+						echo 'Logged in as ' . $_SESSION['username'] . '<br /><a href="index.php?logout=true&csrftoken='.$_SESSION['csrftoken'].'">Log out</a>';
 						} else {
 						echo 'Not logged in.<br /><a href="index.php">Log in</a> | <a href="register.php">Register new user</a>';
 						}
