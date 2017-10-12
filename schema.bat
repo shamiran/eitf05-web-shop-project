@@ -1,6 +1,4 @@
-#!/bin/bash
-
-mysql -u webadmin --password=adminadmin -e "
+C:\wamp64\bin\mysql\mysql5.7.19\bin\mysql.exe -hlocalhost -uwebadmin -p -e "
   USE webshop;
   drop table IF EXISTS users;
   drop table IF EXISTS blacklist;
@@ -25,9 +23,11 @@ mysql -u webadmin --password=adminadmin -e "
   INSERT INTO blacklist (password)
     VALUES
     ('Abcd1234'),
-    ('Hello123'),
-    ('Cat12345'),
-    ('ABCD123');
+    ('12345678'),
+    ('11111111'),
+    ('11223344'),
+    ('123456789'),
+    ('987654321');
 
     INSERT INTO products (id,name,price,image)
       VALUES
@@ -36,3 +36,4 @@ mysql -u webadmin --password=adminadmin -e "
       (3, 'Sony Xperia XZ', 800, 'http://cdn2.gsmarena.com/vv/pics/sony/sony-xperia-xz-premium-2017-0.jpg'),
       (4, 'Motorola Moto Z2', 700, 'http://cdn2.gsmarena.com/vv/pics/motorola/motorola-moto-z2-play-0.jpg') ;
     "
+pause

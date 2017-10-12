@@ -9,6 +9,7 @@
 ?>
 <html>
 <head>
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; child-src 'none'; object-src 'none'; img-src 'self' *.gsmarena.com *.ndtv.com *.flaticon.com *.burnerapp.com">
 <title>Min sida</title>
 <link rel="stylesheet" type="text/css" href="mall.css" />
 </head>

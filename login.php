@@ -45,9 +45,8 @@ if($result->num_rows == 0){
 	$date_lastLogin = new DateTime($row['lastLoginAttempt']);
 
 	if($mysql_date_now->getTimestamp() - $date_lastLogin->getTimestamp() >= 60 || $row['loginAttemptCount']<5-1){
-		$salt = $row['salt'];
 		$lac = $row['loginAttemptCount'];
-		if(md5($password.$salt) === $row['password']){
+		if(password_verify($password, $row['password'])){
 			$token = makeMeAToken(40);
 			$login = true;
 			session_start();
@@ -95,6 +94,7 @@ function makeMeAToken($max=40){
 ?>
 <html>
 <head>
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; child-src 'none'; object-src 'none'; img-src 'self' *.gsmarena.com *.ndtv.com *.flaticon.com *.burnerapp.com">
 <title>ExpressPhone Store</title>
 <link rel="stylesheet" type="text/css" href="mall.css" />
 </head>
@@ -116,7 +116,7 @@ function makeMeAToken($max=40){
 			<div class=header-info>
 				<div class=active-user>
 					<?php if(isset($_SESSION['username'])){
-						echo 'Logged in as ' . $_SESSION['username'] . '<br /><a href="index.php?logout=true">Log out</a>';
+						echo 'Logged in as ' . $_SESSION['username'] . '<br /><a href="index.php?logout=true&csrftoken='.$_SESSION['csrftoken'].'">Log out</a>';
 						} else {
 						echo 'Not logged in.<br /><a href="index.php">Log in</a> | <a href="register.php">Register new user</a>';
 						}
